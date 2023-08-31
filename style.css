@@ -1,0 +1,22 @@
+tr {
+    width: 300px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+td {
+    width: 100px;
+    height: 98px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: large;
+    font-weight: bold;
+}
+td:hover{
+    background-color: bisque;
+}

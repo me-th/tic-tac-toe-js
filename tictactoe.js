@@ -28,6 +28,7 @@ function isWinner(player) {
 
     for(let combo of winningCombinations) {
         if(list.includes(combo[0]) && list.includes(combo[1]) && list.includes(combo[2])) {
+            buttonHandler();
             return true;
         }
     }
@@ -35,6 +36,7 @@ function isWinner(player) {
 }
 function isFull() {
     if(moves === 9){
+        buttonHandler();
         return true;
     }else{
         return false;
