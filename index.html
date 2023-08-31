@@ -4,11 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>tic tac toe game</title>
-    <script src="tictactoe.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>tic tac toe game</h1>
-    <p>Open console to see results and click start button to start the game.</p>
-    <button onclick="startGame()">start</button>
+    <p id="nowPlays">Click start button to start the game.</p>
+    <button onclick="setFirstPlayer()" id="setFirstPlayer">o starts</button>
+    <button onclick="buttonHandler()" id="startStopButton">start</button>
+    <div id="gameBoard">
+        <table>
+            <tr>
+                <td id="cell1" onclick="handleClick(0)">1</td>
+                <td id="cell2" onclick="handleClick(1)">2</td>
+                <td id="cell3" onclick="handleClick(2)">3</td>
+            </tr>
+            <tr>
+                <td id="cell4" onclick="handleClick(3)">4</td>
+                <td id="cell5" onclick="handleClick(4)">5</td>
+                <td id="cell6" onclick="handleClick(5)">6</td>
+            </tr>
+            <tr>
+                <td id="cell7" onclick="handleClick(6)">7</td>
+                <td id="cell8" onclick="handleClick(7)">8</td>
+                <td id="cell9" onclick="handleClick(8)">9</td>
+            </tr>
+        </table>
+    </div>
+    <script src="tictactoe.js"></script>
 </body>
 </html>

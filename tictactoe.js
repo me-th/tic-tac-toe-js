@@ -1,98 +1,137 @@
-let board = [0,1,2,3,4,5,6,7,8]
-let players = ["x", "o"];
-let nextPlayer = 0
-let endOfGame = false
-function resetBoard(){
-    board = ["1","2","3","4","5","6","7","8","9"]
+let board = [1,2,3,4,5,6,7,8,9];
+let xTiles = [];
+let oTiles = [];
+let player = 0;
+let moves = 0
+let isRunning = false;
+function clearData(){
+    resetBoard();
+    xTiles = [];
+    oTiles = [];
+    player = 0;
+    isRunning = false;
+    moves = 0
 }
-function generateBoard(){
-    console.log("|", board[0], "|", board[1], "|", board[2]);
-    console.log("|", board[3], "|", board[4], "|", board[5]);
-    console.log("|", board[6], "|", board[7], "|", board[8]);
-}
-function isFree(squareNumber){
-    switch (board[squareNumber-1]){
-        case "x":
-            return false
-        case "o":
-            return false
-        default:
-            return true
-    }
-}
-function setTile(player, tile){
-    if (player === "x" || player === "o"){
-        board[tile-1] = player;
+function isWinner(player) {
+    let list;
+    if(player === 0){
+        list = oTiles;
     } else {
-        console.log("player not found");
+        list = xTiles;
     }
-}
-function move(player, tile){
-    if (isFree(tile)){
-        setTile(player, tile);
-        return true
-    } else{
-        console.log("tile already in use!");
-    }
-}
-function nextRound(){
-    let player = players[nextPlayer];
-    let success = false;
+    
+    const winningCombinations = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], 
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], 
+        [0, 4, 8], [2, 4, 6]            
+    ];
 
-    while (!success) {
-        let tile = prompt(player + "'s move. Please type the tile number.");
-
-        while(tile > 9 || tile < 1 || isNaN(tile)) {
-            console.log("please provide a number from 1 to 9");
-            tile = prompt(player + "'s move. Please type the tile number.");
+    for(let combo of winningCombinations) {
+        if(list.includes(combo[0]) && list.includes(combo[1]) && list.includes(combo[2])) {
+            return true;
         }
-
-        success = move(player, parseInt(tile));
     }
-    nextPlayer = 1 - nextPlayer;  // toggles between 0 and 1
-    generateBoard();
-    endOfGame = checkScore();
+    return false;
 }
-function checkScore(){
-    let player;
-
-    if ((board[0] === board[1]) && (board[1] === board[2])) {
-        player = board[0];
-    } else if ((board[0] === board[3]) && (board[3] === board[6])) {
-        player = board[0];
-    } else if ((board[0] === board[4]) && (board[4] === board[8])) {
-        player = board[0];
-    } else if ((board[1] === board[4]) && (board[4] === board[7])) {
-        player = board[1];
-    } else if ((board[3] === board[4]) && (board[4] === board[5])) {
-        player = board[3];
-    } else if ((board[2] === board[4]) && (board[4] === board[6])) {
-        player = board[2];
-    } else if ((board[6] === board[7]) && (board[7] === board[8])) {
-        player = board[6];
-    } else if ((board[2] === board[5]) && (board[5] === board[8])) {
-        player = board[2];
-    } else if (!isFree(1) && !isFree(2) && !isFree(3) && !isFree(4) && !isFree(5) && !isFree(6) && !isFree(7) && !isFree(8) && !isFree(9)) {
-        console.log("No more space, tie.");
+function isFull() {
+    if(moves === 9){
         return true;
-    } else {
+    }else{
         return false;
     }
-
-    console.log(player, "won.");
-    return true;
 }
-
-function startGame(){
-    resetBoard()
-    generateBoard()
-    let startingPlayer = prompt("Who starts? please type x or o");
-    if (startingPlayer !== "o" && startingPlayer !== "x"){
-        console.log("invalid answer")
-    } else if (startingPlayer === "o"){
-        nextPlayer = 1;
+function refreshBoard(){
+    for(let i = 0; i < board.length; i++){
+        refreshCell(i);
     }
-    while(!endOfGame){
-        nextRound()
+}
+function resetBoard(){
+    board = [1,2,3,4,5,6,7,8,9];
+    refreshBoard();
+}
+function isTaken(cell){
+    if(board[cell] == "x" || board[cell] == "o"){
+        return true;
+    }else{
+        return false;
+    }
+}
+function handleClick(cell){
+    let symbol;
+    if(!isTaken(cell)){
+        if(player === 0){
+            moves += 1;
+            symbol = "o";
+            oTiles.push(cell);
+            if(isWinner(0)){
+                document.getElementById("nowPlays").innerText="o wins!";
+            }else if(isFull()){
+                document.getElementById("nowPlays").innerText="no more space, tie";
+            }else{
+                player = 1;
+                document.getElementById("nowPlays").innerText="x's move...";
+            }
+        }else{
+            moves += 1;
+            symbol = "x";
+            xTiles.push(cell);
+            if(isWinner(1)){
+                document.getElementById("nowPlays").innerText="x wins!";
+            }else if(isFull()){
+                document.getElementById("nowPlays").innerText="no more space, tie";
+            }else{
+                player = 0;
+                document.getElementById("nowPlays").innerText="o's move...";
+            }
+        }
+        board[cell] = symbol;
+        refreshCell(cell);
+    }else{
+        alert("sorry, this tile is taken");
+    }  
+}
+function refreshCell(cell){
+    let cellname = "cell"+(cell+1);
+    document.getElementById(cellname).innerHTML=board[cell];
+    if(board[cell] === "x"){
+        document.getElementById(cellname).style.backgroundColor="aquamarine";
+    }else if(board[cell] === "o"){
+        document.getElementById(cellname).style.backgroundColor="lightpink";
+    }else{
+        document.getElementById(cellname).style.backgroundColor="white"
+    }
+}
+function setFirstPlayer(){
+   if(player === 0){
+    player = 1;
+    document.getElementById("setFirstPlayer").innerHTML="x starts"
+   }else{
+    player = 0;
+    document.getElementById("setFirstPlayer").innerHTML="o starts"
+   }
+}
+function startGame(){
+    document.getElementById("startStopButton").innerHTML="reset";
+    resetBoard();
+    if(player === 0){
+        document.getElementById("nowPlays").innerText="o's move...";
+    }else{
+        document.getElementById("nowPlays").innerText="x's move...";
+    }
+}
+function resetGame(){
+    clearData();
+    document.getElementById("startStopButton").innerHTML="start";
+    document.getElementById("nowPlays").innerText="Click start button to start the game.";
+}
+function buttonHandler(){
+    if(isRunning === true){
+        document.getElementById("startStopButton").innerHTML="reset";
+        resetGame();
+        isRunning = false;
+    }else{
+        document.getElementById("startStopButton").innerHTML="start";
+        startGame();
+        isRunning = true;
     }
 }
