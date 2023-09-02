@@ -1,22 +1,103 @@
-tr {
-    width: 300px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-left: 1px solid black;
-    border-right: 1px solid black;
+body {
+    font-family: serif;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+    transition: background-color 0.3s ease;
 }
+
+/* Default light theme */
+body, h1, #statusText {
+    color: #002244; /* Darker blue */
+}
+
+table, td, button {
+    border-color: #000;
+}
+
+/* If user prefers dark theme */
+@media (prefers-color-scheme: dark) {
+    body, h1, #statusText {
+        color: #ccc; /* Lighter gray for dark mode */
+    }
+
+    table, td, button {
+        border-color: #aaa; /* Lighter border for dark mode */
+    }
+
+    button:hover {
+        color: #000;
+    }
+}
+
+h1 {
+    margin-top: 30px;
+    font-size: 32px;
+}
+
+#gameBoard {
+    margin: 50px auto;
+    border-collapse: collapse;
+    width: 310px;
+}
+
+table, td {
+    border-collapse: collapse;
+}
+
 td {
     width: 100px;
-    height: 98px;
-    border: 1px solid black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: large;
+    height: 100px;
+    font-size: 24px;
     font-weight: bold;
+    border: 3px solid #000;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: black;
+    background-color: #E0E0E0; /* A bit darker default background */
 }
-td:hover{
-    background-color: bisque;
+
+td:hover {
+    background-color: #F3F3F3; /* Original lighter color on hover */
+}
+
+.red {
+    background-color: #FF6666; /* More saturated red */
+    color: black;
+}
+
+.blue {
+    background-color: #6666FF; /* More saturated blue */
+    color: black;
+}
+
+.red:hover {
+    background-color: #FFCCCC; /* Lighter red on hover */
+}
+
+.blue:hover {
+    background-color: #CCCCFF; /* Lighter blue on hover */
+}
+
+button {
+    padding: 10px 20px;
+    margin: 10px;
+    border: 3px solid #000;
+    background-color: #E0E0E0; /* A bit darker default background for consistency */
+    color: #000;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #F3F3F3; /* Original lighter color on hover */
+    color: #000;
+}
+
+#statusText {
+    font-size: 18px;
+    margin-top: 20px;
+    padding-top: 20px;
 }
